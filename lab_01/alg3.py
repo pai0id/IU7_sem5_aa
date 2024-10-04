@@ -22,8 +22,3 @@ def dLev(s1, s2):
  
     return d[len(s1)-1,len(s2)-1]
 
-
-# s1 = "1234"
-# s2 = "2143"
-
-# print(dlev(s1, s2))

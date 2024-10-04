@@ -45,7 +45,7 @@ def getLevSize(f, size):
 
     return res / TIMES
 
-def testAlgsSize():
+def testAlgsSize(i):
     alg1 = []
     alg2 = []
     alg3 = []
@@ -53,13 +53,19 @@ def testAlgsSize():
     for size in range(2, MAX_SIZE + 1):
         print(f'Size: {size}')
         x.append(size)
-        alg1.append(getLevSize(reqLev, size))
-        alg2.append(getLevSize(memLev, size))
-        # alg3.append(getLevSize(dLev, size))
+        if i == 1:
+            alg1.append(getLevSize(reqLev, size))
+            alg2.append(getLevSize(memLev, size))
+        else:
+            alg3.append(getLevSize(dLev, size))
 
-    plt.plot(x, alg1, label='alg1', color='blue')
-    plt.plot(x, alg2, label='alg2', color='green')
-    # plt.plot(x, alg3, label='alg3', color='red')
+    if i == 1:
+        plt.plot(x, alg1, label='alg1', color='blue')
+        plt.plot(x, alg2, label='alg2', color='green')
+    else:
+        plt.plot(x, alg3, label='alg3', color='red')
+
+    print(alg1, alg2, alg3)
 
     plt.xlabel('Размер строки')
     plt.ylabel('Память')
@@ -67,7 +73,7 @@ def testAlgsSize():
     plt.grid(True)
     plt.legend()
 
-def testAlgsTime():
+def testAlgsTime(i):
     alg1 = []
     alg2 = []
     alg3 = []
@@ -75,13 +81,19 @@ def testAlgsTime():
     for size in range(2, MAX_SIZE + 1):
         print(f'Size: {size}')
         x.append(size)
-        alg1.append(getLevTimeNs(reqLev, size))
-        alg2.append(getLevTimeNs(memLev, size))
-        # alg3.append(getLevTimeNs(dLev, size))
+        if i == 1:
+            alg1.append(getLevTimeNs(reqLev, size))
+            alg2.append(getLevTimeNs(memLev, size))
+        else:
+            alg3.append(getLevTimeNs(dLev, size))
 
-    plt.plot(x, alg1, label='alg1', color='blue')
-    plt.plot(x, alg2, label='alg2', color='green')
-    # plt.plot(x, alg3, label='alg3', color='red')
+    if i == 1:
+        plt.plot(x, alg1, label='alg1', color='blue')
+        plt.plot(x, alg2, label='alg2', color='green')
+    else:
+        plt.plot(x, alg3, label='alg3', color='red')
+
+    print(alg1, alg2, alg3)
 
     plt.xlabel('Размер строки')
     plt.ylabel('Время, нс')
@@ -90,8 +102,8 @@ def testAlgsTime():
     plt.legend()
 
 if __name__ == "__main__":
-    plt.subplot(211)
-    testAlgsTime()
-    plt.subplot(212)
-    testAlgsSize()
+    testAlgsTime(1)
+    testAlgsSize(1)
+    testAlgsTime(2)
+    testAlgsSize(2)
     plt.show()

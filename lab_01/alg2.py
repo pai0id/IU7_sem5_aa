@@ -15,7 +15,3 @@ def memLev(s1, s2):
     
     return curr[n]
 
-# s1 = "reka"
-# s2 = "muka"
-
-# print(lev(s1, s2))

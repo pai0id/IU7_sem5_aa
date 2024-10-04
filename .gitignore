@@ -25,3 +25,10 @@ go.work.sum
 .env
 
 __pycache__
+
+lib
+include
+binary
+lib64
+bin
+*.cfg

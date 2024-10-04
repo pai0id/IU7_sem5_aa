@@ -8,7 +8,3 @@ def reqLev(s1, s2):
     else:
         return 1 + min(reqLev(s1[1:], s2), reqLev(s1[1:], s2[1:]), reqLev(s1, s2[1:]))
 
-# s1 = "reka"
-# s2 = "muka"
-
-# print(lev(s1, s2))
