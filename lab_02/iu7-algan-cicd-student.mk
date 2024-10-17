@@ -1,0 +1,23 @@
+ready/report.pdf: docs/report_lab_02_AA.pdf
+	mkdir -p ./ready
+	cp docs/report_lab_02_AA.pdf ready/report.pdf
+
+ready/stud-unit-test-report-prev.json: tests/res.json
+	mkdir -p ./ready
+	cp tests/res.json ready/stud-unit-test-report-prev.json
+
+ready/main-cli-debug.py: src/main.py
+	mkdir -p ./ready
+	cp src/* ready/
+
+.PHONY: clean
+clean:
+	echo OK
+
+ready/app-cli-debug:
+
+ready/main-cli-debug:
+
+ready/stud-unit-test-report.json: tests/res.json
+	mkdir -p ./ready
+	cp tests/res.json ready/stud-unit-test-report.json

@@ -1,0 +1,193 @@
+\chapter{Технологическая часть}
+
+\section{Средства разработки}
+
+В качестве языка программирования был выбран MicroPython \cite{micropython}, так как он поддерживается микроконтроллером, на котором будут выполняться замеры, в его стандартной библиотеке присутствуют функция замера процессорного времени, которая требуется в условии.
+
+Результаты замеров сохраняются в .csv файл, для построения графиков использовался exel.
+
+Для замера времени использовалась функция ticks\_ms() из стандартного модуля utime \cite{micropython-utime}.
+
+\section{Реализация алгоритмов}
+
+В листинге \ref{lst:std} представлена реализация стандартного алгоритма умножения матриц.
+
+\begin{lstlisting}[label=lst:std,caption={Стандартный алгоритм умножения матриц}]
+def Multiply(A, B):
+    rows_A = len(A)
+    cols_A = len(A[0])
+    rows_B = len(B)
+    cols_B = len(B[0])
+
+    result = [[0 for _ in range(cols_B)] for _ in range(rows_A)]
+
+    for i in range(rows_A):
+        for j in range(cols_B):
+            for k in range(cols_A):
+                result[i][j] += A[i][k] * B[k][j]
+
+    return result
+\end{lstlisting}
+
+\clearpage
+
+В листинге \ref{lst:vin} представлена реализация алгоритма умножения матриц Винограда.
+
+\begin{lstlisting}[label=lst:vin,caption={Алгоритм умножения матриц Винограда}]
+def VinogradMultiply(A, B):
+    rows_A = len(A)
+    cols_A = len(A[0])
+    rows_B = len(B)
+    cols_B = len(B[0])
+
+    result = [[0 for _ in range(cols_B)] for _ in range(rows_A)]
+
+    mulH = [0] * rows_A
+    for i in range(rows_A):
+        for j in range(0, cols_A // 2):
+            mulH[i] = mulH[i] + A[i][2 * j] * A[i][2 * j + 1]
+
+    mulV = [0] * cols_B
+    for i in range(cols_B):
+        for j in range(0, rows_B // 2):
+            mulV[i] = mulV[i] + B[2 * j][i] * B[2 * j + 1][i]
+
+    for i in range(rows_A):
+        for j in range(cols_B):
+            result[i][j] = -mulH[i] - mulV[j]
+            for k in range(0, cols_A // 2):
+                result[i][j] = result[i][j] + (A[i][2 * k] + B[2 * k + 1][j]) * (A[i][2 * k + 1] + B[2 * k][j])
+
+    if cols_A % 2 == 1:
+        for i in range(rows_A):
+            for j in range(cols_B):
+                result[i][j] = result[i][j] + A[i][cols_A - 1] * B[cols_A - 1][j]
+
+    return result
+\end{lstlisting}
+
+\clearpage
+
+В листинге \ref{lst:opt-vin} представлена реализация оптимизированного алгоритма умножения матриц Винограда.
+\begin{itemize}
+    \item двоичный сдвиг вместо умножения на 2
+    \item введение декремента при вычислении вспомогательных массивов
+    \item вынос начальной итерации из каждого внешнего цикл
+\end{itemize}
+
+\begin{lstlisting}[label=lst:opt-vin,caption={Алгоритм умножения матриц Винограда}]
+def OptimVinogradMultiply(A, B):
+    rows_A = len(A)
+    cols_A = len(A[0])
+    rows_B = len(B)
+    cols_B = len(B[0])
+
+    result = [[0 for _ in range(cols_B)] for _ in range(rows_A)]
+    mulH = [0] * rows_A
+    for i in range(rows_A):
+        mulH[i] -= A[i][0] * A[i][1]
+        for j in range(1, cols_A // 2):
+            mulH[i] -= A[i][j << 1] * A[i][(j << 1 )+ 1]
+    mulV = [0] * cols_B
+    for i in range(cols_B):
+        mulV[i] -= B[0][i] * B[1][i]
+        for j in range(1, rows_B // 2):
+            mulV[i] -= B[j << 1][i] * B[(j << 1) + 1][i]
+    for i in range(rows_A):
+        for j in range(cols_B):
+            result[i][j] = mulH[i] + mulV[j]
+            result[i][j] = result[i][j] + (A[i][0] + B[1][j]) * (A[i][ 1] + B[0][j])
+            for k in range(1, cols_A // 2):
+                result[i][j] = result[i][j] + (A[i][k << 1] + B[(k << 1) + 1][j]) * (A[i][(k << 1) + 1] + B[k << 1][j])
+    if cols_A % 2 == 1:
+        for i in range(rows_A):
+            for j in range(cols_B):
+                result[i][j] = result[i][j] + A[i][cols_A - 1] * B[cols_A - 1][j]
+    return result
+\end{lstlisting}
+
+\clearpage
+
+\section{Функциональные тесты}
+
+В табличке \ref{tbl:func} приведены функциональные тесты для алгоритмов.
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth} { 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+        \hline
+        \textbf{№} & \textbf{Входные данные} & \textbf{Результат} & \textbf{Ожидаемое} \\ 
+        \hline
+        1 & 
+        $A = \begin{pmatrix} 
+        1 & 2 & 3 \\ 
+        4 & 5 & 6 \\ 
+        7 & 8 & 9 
+        \end{pmatrix}$ \newline 
+        $B = \begin{pmatrix} 
+        9 & 8 & 7 \\ 
+        6 & 5 & 4 \\ 
+        3 & 2 & 1 
+        \end{pmatrix}$ & 
+        $C = \begin{pmatrix} 
+        30 & 24 & 18 \\ 
+        84 & 69 & 54 \\ 
+        138 & 114 & 90 
+        \end{pmatrix}$ & 
+        Результат совпадает с рассчитанной матрицей C. \\ 
+        \hline
+        
+        2 & 
+        $A = \begin{pmatrix} 
+        1 & 2 & 3 \\ 
+        4 & 5 & 6 
+        \end{pmatrix}$ \newline 
+        $B = \begin{pmatrix} 
+        7 & 8 \\ 
+        9 & 10 \\ 
+        11 & 12 
+        \end{pmatrix}$ & 
+        $C = \begin{pmatrix} 
+        58 & 64 \\ 
+        139 & 154 
+        \end{pmatrix}$ & 
+        Матрица C совпадает с ожидаемой. \\ 
+        \hline
+        
+        3 & 
+        $A = \begin{pmatrix} 
+        1 & 2 & 3 & 4 \\ 
+        0 & 1 & 2 & 3 \\ 
+        0 & 0 & 1 & 2 \\ 
+        0 & 0 & 0 & 1 
+        \end{pmatrix}$ \newline 
+        $I = \begin{pmatrix} 
+        1 & 0 & 0 & 0 \\ 
+        0 & 1 & 0 & 0 \\ 
+        0 & 0 & 1 & 0 \\ 
+        0 & 0 & 0 & 1 
+        \end{pmatrix}$ & 
+        $A = \begin{pmatrix} 
+        1 & 2 & 3 & 4 \\ 
+        0 & 1 & 2 & 3 \\ 
+        0 & 0 & 1 & 2 \\ 
+        0 & 0 & 0 & 1 
+        \end{pmatrix}$ & 
+        Результат совпадает с исходной матрицей A. \\ 
+        \hline
+\end{tabularx}
+\caption{Функциональные тесты для алгоритма умножения матриц с конкретными данными}
+\label{tbl:func}
+\end{table}
+
+
+Все тесты пройдены успешно
+
+\section{Вывод}
+
+В ходе работы были разработаны стандартный алгоритм и алгоритм Винограда умножения матриц и оптимизированный по варианту алгоритм Винограда, а также проведено их тестирование.
+
+\clearpage

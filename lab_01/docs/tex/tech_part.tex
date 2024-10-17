@@ -1,0 +1,121 @@
+\chapter{Технологическая часть}
+
+\section{Средства разработки}
+
+В качестве языка программирования был выбран python3 \cite{python3}, так как в его стандартной библиотеке присутствуют функции замера процессорного времени и использованной памяти, которые требуются в условиях, а также данный язык обладающий множеством инструментов для визуализации и работы с данными и таблицами.
+
+Для построения графиков использовалась библиотека matplotlib  \cite{python3-matplotlib}.
+
+Для замера времени использовалась функция process\_time\_ns из стандартного модуля time \cite{python3-time}.
+
+Для замеров памяти использовалась функция get\_traced\_memory стандартного модуля tracemalloc \cite{tracemalloc}, которая получает текущую и пиковую выделенную память относительно начала замера.
+
+\section{Реализация алгоритмов}
+
+В листинге \ref{lst:req} представлена реализация рекурсивного алгоритма нахождения расстояния Левенштейна.
+
+\begin{lstlisting}[label=lst:req,caption={Рекурсивный алгоритм нахождения расстояния Левенштейна}]
+def reqLev(s1, s2):
+    if len(s2) == 0:
+        return len(s1)
+    elif len(s1) == 0:
+        return len(s2)
+    elif s1[0] == s2[0]:
+        return reqLev(s1[1:], s2[1:])
+    else:
+        return 1 + min(reqLev(s1[1:], s2), reqLev(s1[1:], s2[1:]), reqLev(s1, s2[1:]))
+\end{lstlisting}
+
+\clearpage
+
+В листинге \ref{lst:cache} представлена реализация алгоритма нахождения расстояния Левенштейна с кешем.
+
+\begin{lstlisting}[label=lst:cache,caption={Алгоритм нахождения расстояния Левенштейна с кешэм}]
+def memLev(s1, s2):
+    n, m = len(s1), len(s2)
+    if n > m:
+        s1, s2 = s2, s1
+        n, m = m, n
+
+    curr = range(n + 1)
+    for i in range(1, m + 1):
+        prev, curr = curr, [i] + [0] * n
+        for j in range(1, n + 1):
+            add, delete, change = prev[j] + 1, curr[j - 1] + 1, prev[j - 1]
+            if s1[j - 1] != s2[i - 1]:
+                change += 1
+            curr[j] = min(add, delete, change)
+    
+    return curr[n]
+\end{lstlisting}
+
+\clearpage
+
+В листинге \ref{lst:dcache} представлена реализация алгоритма нахождения расстояния Дамерау-Левенштейна с кешем.
+
+\begin{lstlisting}[label=lst:dcache,caption={Итерационный алгоритм нахождения расстояния Дамерау-Левенштейна с кешэм}]
+def dLev(s1, s2):
+    d = {}
+    
+    for i in range(-1,len(s1)+1):
+        d[(i,-1)] = i+1
+    for j in range(-1,len(s2)+1):
+        d[(-1,j)] = j+1
+ 
+    for i in range(len(s1)):
+        for j in range(len(s2)):
+            if s1[i] == s2[j]:
+                cost = 0
+            else:
+                cost = 1
+            d[(i,j)] = min(
+                           d[(i-1,j)] + 1,
+                           d[(i,j-1)] + 1,
+                           d[(i-1,j-1)] + cost,
+                          )
+            if i and j and s1[i] == s2[j-1] and s1[i-1] == s2[j]:
+                d[(i,j)] = min(d[(i,j)], d[i-2,j-2] + 1)
+ 
+    return d[len(s1)-1,len(s2)-1]
+\end{lstlisting}
+
+\section{Функциональные тесты}
+
+В табличке приведены тесты для алгоритмов расстояние Левенштейна и Дамерау-Левенштейна.
+
+\begin{table}[H]
+	\small
+	\begin{center}
+		\begin{threeparttable}
+			\caption{Функциональные тесты}
+			\label{tbl:func_tests}
+			\begin{tabular}{|c|c|c|c|c|c|c|}
+				\hline
+				\multicolumn{2}{|c|}{\bfseries Входные данные}
+				& \multicolumn{5}{c|}{\bfseries Расстояния и алгоритм} \\ 
+				\hline
+				&
+				&
+				\multicolumn{3}{c|}{Левенштейн} & \multicolumn{2}{c|}{Дамерау-Левенштейн} \\ \cline{3-7}
+				Строка 1 & Строка 2 & Рекурсивный & С кешем &  Ожидаемое & С кешем & Ожидаемое \\
+				\hline
+				андрей & дмитрий & 4 & 4 & 4 & 4 & 4 \\
+				\hline
+				дмитрий & юрий & 2 & 2 & 2 & 2 & 2 \\
+				\hline
+				река & мука & 2 & 2 & 2 & 2 & 2 \\
+				\hline
+				1234 & 2134 & 3 & 3 & 3 & 2 & 2 \\
+				\hline
+			\end{tabular}	
+		\end{threeparttable}
+	\end{center}
+\end{table}
+
+Все тесты пройдены успешно
+
+\section*{Вывод}
+
+В ходе работы были разработаны рекурсивный алгоритм поиска расстояния Левенштейна и алгоритмы поиска расстояний Левенштейна и Дамерау-Левенштейна с кешем, а также проведено их тестирование.
+
+\clearpage
