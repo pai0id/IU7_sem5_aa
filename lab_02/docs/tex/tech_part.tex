@@ -108,86 +108,86 @@ def OptimVinogradMultiply(A, B):
 
 \clearpage
 
-\section{Функциональные тесты}
+% \section{Функциональные тесты}
 
-В табличке \ref{tbl:func} приведены функциональные тесты для алгоритмов.
+% В табличке \ref{tbl:func} приведены функциональные тесты для алгоритмов.
 
-\begin{table}[H]
-\begin{tabularx}{\textwidth} { 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X | }
-        \hline
-        \textbf{№} & \textbf{Входные данные} & \textbf{Результат} & \textbf{Ожидаемое} \\ 
-        \hline
-        1 & 
-        $A = \begin{pmatrix} 
-        1 & 2 & 3 \\ 
-        4 & 5 & 6 \\ 
-        7 & 8 & 9 
-        \end{pmatrix}$ \newline 
-        $B = \begin{pmatrix} 
-        9 & 8 & 7 \\ 
-        6 & 5 & 4 \\ 
-        3 & 2 & 1 
-        \end{pmatrix}$ & 
-        $C = \begin{pmatrix} 
-        30 & 24 & 18 \\ 
-        84 & 69 & 54 \\ 
-        138 & 114 & 90 
-        \end{pmatrix}$ & 
-        Результат совпадает с рассчитанной матрицей C. \\ 
-        \hline
+% \begin{table}[H]
+% \begin{tabularx}{\textwidth} { 
+%   | >{\centering\arraybackslash}X 
+%   | >{\centering\arraybackslash}X 
+%   | >{\centering\arraybackslash}X 
+%   | >{\centering\arraybackslash}X | }
+%         \hline
+%         \textbf{№} & \textbf{Входные данные} & \textbf{Результат} & \textbf{Ожидаемое} \\ 
+%         \hline
+%         1 & 
+%         $A = \begin{pmatrix} 
+%         1 & 2 & 3 \\ 
+%         4 & 5 & 6 \\ 
+%         7 & 8 & 9 
+%         \end{pmatrix}$ \newline 
+%         $B = \begin{pmatrix} 
+%         9 & 8 & 7 \\ 
+%         6 & 5 & 4 \\ 
+%         3 & 2 & 1 
+%         \end{pmatrix}$ & 
+%         $C = \begin{pmatrix} 
+%         30 & 24 & 18 \\ 
+%         84 & 69 & 54 \\ 
+%         138 & 114 & 90 
+%         \end{pmatrix}$ & 
+%         Результат совпадает с рассчитанной матрицей C. \\ 
+%         \hline
         
-        2 & 
-        $A = \begin{pmatrix} 
-        1 & 2 & 3 \\ 
-        4 & 5 & 6 
-        \end{pmatrix}$ \newline 
-        $B = \begin{pmatrix} 
-        7 & 8 \\ 
-        9 & 10 \\ 
-        11 & 12 
-        \end{pmatrix}$ & 
-        $C = \begin{pmatrix} 
-        58 & 64 \\ 
-        139 & 154 
-        \end{pmatrix}$ & 
-        Матрица C совпадает с ожидаемой. \\ 
-        \hline
+%         2 & 
+%         $A = \begin{pmatrix} 
+%         1 & 2 & 3 \\ 
+%         4 & 5 & 6 
+%         \end{pmatrix}$ \newline 
+%         $B = \begin{pmatrix} 
+%         7 & 8 \\ 
+%         9 & 10 \\ 
+%         11 & 12 
+%         \end{pmatrix}$ & 
+%         $C = \begin{pmatrix} 
+%         58 & 64 \\ 
+%         139 & 154 
+%         \end{pmatrix}$ & 
+%         Матрица C совпадает с ожидаемой. \\ 
+%         \hline
         
-        3 & 
-        $A = \begin{pmatrix} 
-        1 & 2 & 3 & 4 \\ 
-        0 & 1 & 2 & 3 \\ 
-        0 & 0 & 1 & 2 \\ 
-        0 & 0 & 0 & 1 
-        \end{pmatrix}$ \newline 
-        $I = \begin{pmatrix} 
-        1 & 0 & 0 & 0 \\ 
-        0 & 1 & 0 & 0 \\ 
-        0 & 0 & 1 & 0 \\ 
-        0 & 0 & 0 & 1 
-        \end{pmatrix}$ & 
-        $A = \begin{pmatrix} 
-        1 & 2 & 3 & 4 \\ 
-        0 & 1 & 2 & 3 \\ 
-        0 & 0 & 1 & 2 \\ 
-        0 & 0 & 0 & 1 
-        \end{pmatrix}$ & 
-        Результат совпадает с исходной матрицей A. \\ 
-        \hline
-\end{tabularx}
-\caption{Функциональные тесты для алгоритма умножения матриц с конкретными данными}
-\label{tbl:func}
-\end{table}
+%         3 & 
+%         $A = \begin{pmatrix} 
+%         1 & 2 & 3 & 4 \\ 
+%         0 & 1 & 2 & 3 \\ 
+%         0 & 0 & 1 & 2 \\ 
+%         0 & 0 & 0 & 1 
+%         \end{pmatrix}$ \newline 
+%         $I = \begin{pmatrix} 
+%         1 & 0 & 0 & 0 \\ 
+%         0 & 1 & 0 & 0 \\ 
+%         0 & 0 & 1 & 0 \\ 
+%         0 & 0 & 0 & 1 
+%         \end{pmatrix}$ & 
+%         $A = \begin{pmatrix} 
+%         1 & 2 & 3 & 4 \\ 
+%         0 & 1 & 2 & 3 \\ 
+%         0 & 0 & 1 & 2 \\ 
+%         0 & 0 & 0 & 1 
+%         \end{pmatrix}$ & 
+%         Результат совпадает с исходной матрицей A. \\ 
+%         \hline
+% \end{tabularx}
+% \caption{Функциональные тесты для алгоритма умножения матриц с конкретными данными}
+% \label{tbl:func}
+% \end{table}
 
 
-Все тесты пройдены успешно
+% Все тесты пройдены успешно
 
 \section{Вывод}
 
-В ходе работы были разработаны стандартный алгоритм и алгоритм Винограда умножения матриц и оптимизированный по варианту алгоритм Винограда, а также проведено их тестирование.
+В ходе работы были разработаны стандартный алгоритм и алгоритм Винограда умножения матриц и оптимизированный по варианту алгоритм Винограда.
 
 \clearpage

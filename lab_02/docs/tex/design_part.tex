@@ -9,13 +9,28 @@
 \textbf{Выходные данные:} Матрица, являющаяся результатом умножения данных матриц
 
 \begin{itemize}
-    \item Должна быть возможность одиночного выполнения умножения введенных пользователем матриц введенных пользователем 4 размеров
-    \item Должна быть возможность массированного замера времени выполнения реализаций алгоритмов умножения матриц
-    \item Должна быть возможность замера процессорного времени программы
-    \item Должна быть возможность вывода графиков и таблиц замеров процессорного времени
+    \item Должна быть возможность одиночного выполнения умножения введенных пользователем матриц введенных пользователем 4 размеров;
+    \item Должна быть возможность массированного замера времени выполнения реализаций алгоритмов умножения матриц;
+    \item Должна быть возможность замера процессорного времени программы;
+    \item Должна быть возможность вывода графиков и таблиц замеров процессорного времени.
 \end{itemize}
 
 \section{Разработка алгоритмов}
+
+Для всех алгоритмов заданы:
+\begin{itemize}
+    \item $rows\_A$ -- количество строк в $A$;
+    \item $cols\_A$ -- количество столбцов в $A$;
+    \item $rows\_B$ -- количество строк в $B$;
+    \item $cols\_B$ -- количество столбцов в $B$;
+    \item Матрица $result$ размером $rows\_A$ на $cols\_B$, заполненная нулями.
+\end{itemize}
+
+Для алгоритмов Винограда заданы:
+\begin{itemize}
+    \item Массив $mulH$ размера M, заполненный нулями;
+    \item Массив $mulV$ размера Q, заполненный нулями;
+\end{itemize}
 
 Cтандартный алгоритм умножения матриц представлен в листинге \ref{alg:std_des}.
 
@@ -23,13 +38,6 @@ Cтандартный алгоритм умножения матриц пред�
 \caption{Cтандартный алгоритм умножения матриц}
 \label{alg:std_des}
 \begin{algorithmic}
-    \State \textbf{Input:} матрицы $A$, $B$
-    \State $rows\_A \gets$ количество строк в $A$
-    \State $cols\_A \gets$ количество столбцов в $A$
-    \State $cols\_B \gets$ количество столбцов в $B$
-    
-    \State Создать пустую матрицу $result$ размером $rows\_A \times cols\_B$, заполненную нулями
-    
     \For{$i = 0$ \textbf{to} $rows\_A - 1$}
         \For{$j = 0$ \textbf{to} $cols\_B - 1$}
             \For{$k = 0$ \textbf{to} $cols\_A - 1$}
@@ -48,21 +56,11 @@ Cтандартный алгоритм умножения матриц пред�
 \caption{Алгоритм умножения матриц Винограда}
 \label{alg:vin_des}
 \begin{algorithmic}
-    \State \textbf{Input:} матрицы $A$, $B$
-    \State $rows\_A \gets$ количество строк в $A$
-    \State $cols\_A \gets$ количество столбцов в $A$
-    \State $rows\_B \gets$ количество строк в $B$
-    \State $cols\_B \gets$ количество столбцов в $B$
-    
-    \State Создать пустую матрицу $result$ размером $rows\_A \times cols\_B$, заполненную нулями
-    
-    \State Создать массив $mulH$ размером $rows\_A$, заполненный нулями
     \For{$i = 0$ \textbf{to} $rows\_A - 1$}
         \For{$j = 0$ \textbf{to} $cols\_A // 2 - 1$}
             \State $mulH[i] = mulH[i] + A[i][2 \cdot j] \times A[i][2 \cdot j + 1]$
         \EndFor
     \EndFor
-    \State Создать массив $mulV$ размером $cols\_B$, заполненный нулями
     \For{$i = 0$ \textbf{to} $cols\_B - 1$}
         \For{$j = 0$ \textbf{to} $rows\_B // 2 - 1$}
             \State $mulV[i] = mulV[i] + B[2 \cdot j][i] \times B[2 \cdot j + 1][i]$
@@ -95,22 +93,12 @@ Cтандартный алгоритм умножения матриц пред�
 \caption{Оптимизированный алгоритм умножения матриц Винограда}
 \label{alg:opt_vin_des}
 \begin{algorithmic}
-    \State \textbf{Input:} матрицы $A$, $B$
-    \State $rows\_A \gets$ количество строк в $A$
-    \State $cols\_A \gets$ количество столбцов в $A$
-    \State $rows\_B \gets$ количество строк в $B$
-    \State $cols\_B \gets$ количество столбцов в $B$
-    
-    \State Создать пустую матрицу $result$ размером $rows\_A \times cols\_B$, заполненную нулями
-    
-    \State Создать массив $mulH$ размером $rows\_A$, заполненный нулями
     \For{$i = 0$ \textbf{to} $rows\_A - 1$}
         \State $mulH[i] = -A[i][0] \times A[i][1]$
         \For{$j = 1$ \textbf{to} $cols\_A // 2 - 1$}
             \State $mulH[i] = mulH[i] - A[i][j << 1] \times A[i][(j << 1) + 1]$
         \EndFor
     \EndFor
-    \State Создать массив $mulV$ размером $cols\_B$, заполненный нулями
     \For{$i = 0$ \textbf{to} $cols\_B - 1$}
         \State $mulV[i] = -B[0][i] \times B[1][i]$
         \For{$j = 1$ \textbf{to} $rows\_B // 2 - 1$}
@@ -139,6 +127,42 @@ Cтандартный алгоритм умножения матриц пред�
 \end{algorithmic}
 \end{algorithm}
 
+\section{Модель вычислений}
+
+В данной работе будет выполняться оценка трудоемкости алгоритмов, поэтому будет введена модель вычислений:
+
+\textbf{Трудоемкость базовых операций}
+
+\begin{itemize}
+    \item Единичные операции: $=, ==, -, +, <<, []$
+    \item Операции трудоемкости 2: $\times, \mod, \cdot, //$
+\end{itemize}
+
+\textbf{Трудоемкость операторов цикла}
+
+Пусть для цикла вида:
+for инициализация to значение сравнения do тело
+    
+Известны трудоемкости соответствующих блоков $f_{\text{инициализация}}$,\newline$f_{\text{значение сравнения}}$, $f_{\text{тело}}$, тогда трудоемкость цикла имеет следующий вид:
+
+\begin{equation}
+    \label{eq:work1}
+    f = f_{\text{инициализация}} + f_{\text{значение сравнения}} + 1 + M*(f_{\text{тело}} + 1 + f_{\text{значение сравнения}} + 1)
+\end{equation}
+
+\textbf{Трудоемкость условного оператора}
+
+Пусть трудоемкость условного перехода равна 0. При известных $f_\text{усл}$, $f_{\text{тело}}$, тогда трудоемкость цикла вида:
+
+if усл then тело end if
+
+Трудоемкость равна:
+
+\begin{equation}
+    \label{eq:work2}
+    f = f_{\text{усл}} + [0\text{, если лучший случай, иначе } f_{\text{тело}}]
+\end{equation}
+
 \section{Оценка трудоемкости}
 
 Пусть обрабатываются матрицы размера $M \times N$ и $N \times Q$
@@ -149,8 +173,8 @@ Cтандартный алгоритм умножения матриц пред�
 
 \begin{equation}
     \begin{aligned}
-    f &= \underbrace{M \times Q}_{\text{result}} + \underbrace{3 + M \times (\underbrace{3 + N \times (\underbrace{3 + Q \times (12 + 3)}_{\text{цикл по k}} + 3)}_{\text{цикл по j}} + 3)}_{\text{цикл по i}} = \\
-    &= 3+6M+6MN+MQ+15MNQ
+    f &= \underbrace{3 + M \times (\underbrace{3 + N \times (\underbrace{3 + Q \times (12 + 3)}_{\text{цикл по k}} + 3)}_{\text{цикл по j}} + 3)}_{\text{цикл по i}} = \\
+    &= 3+6M+6MN+15MNQ
     \end{aligned}
 \end{equation}
 
@@ -161,20 +185,17 @@ Cтандартный алгоритм умножения матриц пред�
 \begin{equation}
     \begin{aligned}
     f &=
-    \underbrace{M \times Q}_{\text{result}} +
-    \underbrace{M}_{\text{mulH}} +
     \underbrace{3 + M \times (\underbrace{
     5 + N/2 \times (15+ 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
-    &+ \underbrace{Q}_{\text{mulV}} +
-    \underbrace{3 + Q \times (\underbrace{
+    &+ \underbrace{3 + Q \times (\underbrace{
     5 + N/2 \times (15+ 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
     &+ \underbrace{3 +M \times (\underbrace{3 + Q \times (7 + \underbrace{
     5 + N/2 \times (28 + 5)
     }_{цикл по k} + 3)}_{\text{цикл по j}} + 3)}_{\text{цикл по i}} +
     \underbrace{3}_{if} = \\
-    &= 12+15M+9Q+10MN+16MQ+10NQ+16.5MNQ
+    &= 12+14M+8Q+10MN+15MQ+10NQ+16.5MNQ
     \end{aligned}
 \end{equation}
 
@@ -183,13 +204,10 @@ Cтандартный алгоритм умножения матриц пред�
 \begin{equation}
     \begin{aligned}
     f &=
-    \underbrace{M \times Q}_{\text{result}} + 
-    \underbrace{M}_{\text{mulH}} +
     \underbrace{3 + M \times (\underbrace{
     5 + N/2 \times (15+ 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
-    &+ \underbrace{Q}_{\text{mulV}} +
-    \underbrace{3 + Q \times (\underbrace{
+    &+ \underbrace{3 + Q \times (\underbrace{
     5 + N/2 \times (15+ 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
     &+ \underbrace{3 + M \times (\underbrace{3 + Q \times (7 + \underbrace{
@@ -198,7 +216,7 @@ Cтандартный алгоритм умножения матриц пред�
     &+ \underbrace{3 +
     \underbrace{3 + M \times (\underbrace{3 + Q \times (14 + 3)}_{\text{цикл по j}} + 3)}_{\text{цикл по i}}
     }_{if} = \\
-    &= 15+21M+9Q+10MN+33MQ+10NQ+16.5MNQ
+    &= 15+20M+8Q+10MN+32MQ+10NQ+16.5MNQ
     \end{aligned}
 \end{equation}
 
@@ -209,20 +227,17 @@ Cтандартный алгоритм умножения матриц пред�
 \begin{equation}
     \begin{aligned}
     f &=
-    \underbrace{M \times Q}_{\text{result}} +
-    \underbrace{M}_{\text{mulH}} +
     \underbrace{3 + M \times (9 + \underbrace{
     5 + (N/2-1) \times (13 + 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
-    &+ \underbrace{Q}_{\text{mulV}} +
-    \underbrace{3 + Q \times (\underbrace{
+    &+ \underbrace{3 + Q \times (\underbrace{
     9 + 5 + (N/2-1) \times (13 + 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
     &+ \underbrace{3 + M \times (\underbrace{3 + Q \times (6 + 18 + \underbrace{
     5 + (N/2-1) \times (23 + 5)
     }_{цикл по k} + 3)}_{\text{цикл по j}} + 3)}_{\text{цикл по i}} +
     \underbrace{3}_{if} = \\
-    &= 12+6M+9MN+5MQ+9MN+14MNQ
+    &= 12+5M+9MN+4MQ+9MN+14MNQ
     \end{aligned}
 \end{equation}
 
@@ -231,13 +246,10 @@ Cтандартный алгоритм умножения матриц пред�
 \begin{equation}
     \begin{aligned}
     f &=
-    \underbrace{M \times Q}_{\text{result}} + 
-    \underbrace{M}_{\text{mulH}} + 
     \underbrace{3 + M \times (9 + \underbrace{
     5 + (N/2-1) \times (13 + 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
-    &+ \underbrace{Q}_{\text{mulV}} + 
-    \underbrace{3 + Q \times (\underbrace{
+    &+ \underbrace{3 + Q \times (\underbrace{
     5 + (N/2-1) \times (13 + 5)
     }_{цикл по j} + 3)}_{цикл по i} + \\
     &+ \underbrace{3 + M \times (\underbrace{3 + Q \times (6 + 18 + \underbrace{
@@ -246,7 +258,7 @@ Cтандартный алгоритм умножения матриц пред�
     &+ \underbrace{3 + 
     \underbrace{3 + M \times (\underbrace{3 + Q \times (14 + 3)}_{\text{цикл по j}} + 3)}_{\text{цикл по i}}
     }_{if} = \\
-    &= 15+12M+9MN+22MQ+9MN+14MNQ
+    &= 15+11M+9MN+21MQ+9MN+14MNQ
     \end{aligned}
 \end{equation}
 

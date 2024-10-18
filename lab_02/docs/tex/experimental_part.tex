@@ -5,8 +5,8 @@
 Технические характеристики устройства, на котором проводились замеры:
 
 \begin{itemize}
-	\item ARM Cortex-M7 core 216 МГц
-	\item Оперативная память: 2 Мб
+	\item ARM Cortex-M7 core 216 МГц;
+	\item Оперативная память: 2 Мб.
 \end{itemize}
 
 \section{Временные характеристики}
@@ -14,27 +14,33 @@
 В таблице \ref{tbl:time} приведены временные характеристики, полученные в результате замеров времени алгоритмов. Для каждого размера квадратной матрицы замер проводился 100 раз, при этом для каждой итерации создавались 2 случайные матрицы заданного размера и использовались как аргументы к алгоритмам. Итоговое время взято как среднее арифметическое всех полученных замеров.
 
 \begin{table}[H]
-\begin{tabularx}{\textwidth} { 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X | }
-    \hline
-    \textbf{Размер матрицы, N$\times$N} & \textbf{Стандартный, нс} & \textbf{Виноград, нс} & \textbf{Виноград оптимизированный, нс} \\
-    \hline
-    15 & 2.5 & 2.71 & 2.54 \\
-    \hline
-    20 & 5.86 & 6.11 & 5.73 \\
-    \hline
-    25 & 11.33 & 11.74 & 11.12 \\
-    \hline
-    30 & 19.45 & 19.86 & 18.85 \\
-    \hline
-    35 & 31.01 & 31.26 & 29.93 \\
-    \hline
-\end{tabularx}
-\caption{Сравнение времени выполнения для различных методов умножения матриц}
-\label{tbl:time}
+    \caption{Сравнение времени выполнения для различных методов умножения матриц}
+    \label{tbl:time}
+    \begin{tabularx}{\textwidth} { 
+      | >{\centering\arraybackslash}X 
+      | >{\centering\arraybackslash}X 
+      | >{\centering\arraybackslash}X 
+      | >{\centering\arraybackslash}X | }
+        \hline
+        \textbf{Размер матрицы, N$\times$N} & \textbf{Стандартный, нс} & \textbf{Виноград, нс} & \textbf{Виноград оптимизированный, нс} \\
+    \end{tabularx}
+    \begin{tabularx}{\textwidth} { 
+      | >{\centering\arraybackslash}X 
+      | >{\raggedleft\arraybackslash}X 
+      | >{\raggedleft\arraybackslash}X 
+      | >{\raggedleft\arraybackslash}X | }
+        \hline
+        15 & 2.5 & 2.71 & 2.54 \\
+        \hline
+        20 & 5.86 & 6.11 & 5.73 \\
+        \hline
+        25 & 11.33 & 11.74 & 11.12 \\
+        \hline
+        30 & 19.45 & 19.86 & 18.85 \\
+        \hline
+        35 & 31.01 & 31.26 & 29.93 \\
+        \hline
+    \end{tabularx}
 \end{table}
 
 Полученные замеры также можно увидеть на графике \ref{fig:time}:
@@ -50,6 +56,6 @@
 
 \section{Вывод}
 
-Из исследования видно, что неоптимизированный алгоритм Винограда уступает в эффективности стандартному, однако при его оптимизации получается получить выйгрыш по времени.
+Из исследования видно, что неоптимизированный алгоритм Винограда уступает в эффективности стандартному, однако при его оптимизации получается получить выигрыш по времени.
 
 \clearpage
