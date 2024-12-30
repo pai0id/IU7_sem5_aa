@@ -88,8 +88,8 @@ def testAlgsTime(i):
             alg3.append(getLevTimeNs(dLev, size)/1000000)
 
     if i == 1:
-        plt.plot(x, alg1, label='alg1', color='blue')
-        plt.plot(x, alg2, label='alg2', color='green')
+        plt.plot(x, alg1, label='Рекурсивный алгоритм', color='blue')
+        plt.plot(x, alg2, label='Алгоритм с кешем', color='green')
     else:
         plt.plot(x, alg3, label='alg3', color='red')
 

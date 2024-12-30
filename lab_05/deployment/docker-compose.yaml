@@ -1,0 +1,32 @@
+services:
+  aa-lr5-db:
+    container_name: aa-lr5-db
+    hostname: aa-lr5-db
+    image: postgres:14.8-alpine3.18
+    command:
+      - "postgres"
+    env_file:
+      - postgres.env
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: always
+    networks:
+      - aa-lr5-db-net
+
+  aa-lr5-db-migrator:
+    container_name: aa-lr5-db-migrator
+    depends_on: 
+      - aa-lr5-db
+    env_file:
+      - migrator.env
+    build:
+      context: ../migrations
+      dockerfile: Dockerfile
+    networks:
+      - aa-lr5-db-net
+
+networks:
+  aa-lr5-db-net:
+    name: aa-lr5-db-net

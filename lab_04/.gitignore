@@ -1,0 +1,6 @@
+makefile
+pages
+obj
+bin
+.vscode
+*.ods

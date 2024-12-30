@@ -6,9 +6,8 @@ ready/stud-unit-test-report-prev.json: tests/res.json
 	mkdir -p ./ready
 	cp tests/res.json ready/stud-unit-test-report-prev.json
 
-ready/main-cli-debug.py: src/main.py
-	mkdir -p ./ready
-	cp src/* ready/
+ready/main-cli-debug.py:
+
 
 .PHONY: clean
 clean:
